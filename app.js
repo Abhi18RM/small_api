@@ -52,7 +52,8 @@ app.post("/bhfl", function (req, res) {
     };
     const fullname = req.body.fullname;
     const dob = req.body.dob;
-    const userid = fullname.concat("_", dob);
+    const replacedStr = fullname.replace(/ /g, '_');
+    const userid = replacedStr.concat("_", dob);
     const res_msg = {
         "is_success": res.statusCode,
         "user_id": userid,
