@@ -24,6 +24,9 @@ function isInteger(value) {
     return /^\d+$/.test(value);
 }
 
+app.get("/", function (req, res) {
+    res.send('Goto route /bhfl');
+})
 
 app.get("/bhfl", function (req, res) {
     console.log(res.statusCode);
@@ -36,16 +39,9 @@ app.get("/:other", function (req, res) {
 
 app.post("/bhfl", function (req, res) {
     // console.log(req.body);
-    const req_msg = {
-        "status": res.statusCode,
-        "userid": req.body.userid,
-        "college_mail": req.body.email,
-        "reg_no": req.body.no,
-        "data": req.body.data
-    };
     var alpha = [];
     var num = [];
-    const data = req_msg.data;
+    const data = req.body.data;
     for (let i = 0; i < data.length; i++) {
         if (isAlphabet(data[i])) {
             alpha.push(data[i]);
@@ -54,9 +50,12 @@ app.post("/bhfl", function (req, res) {
             num.push(data[i]);
         }
     };
+    const fullname = req.body.fullname;
+    const dob = req.body.dob;
+    const userid = fullname.concat("_", dob);
     const res_msg = {
-        "is_success": res.issuccess,
-        "user_id": req.body.userid,
+        "is_success": res.statusCode,
+        "user_id": userid,
         "email": req.body.email,
         "roll_number": req.body.no,
         "numbers": num,
